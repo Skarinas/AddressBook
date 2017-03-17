@@ -21,7 +21,7 @@ public Person(String firstName, String lastName){
     this.firstName = new SimpleStringProperty(firstName);
     this.lastName = new SimpleStringProperty(lastName);
 
-    // фикции
+    // функции
     this.street = new SimpleStringProperty("какая-то улица");
     this.postalCode = new SimpleIntegerProperty(1234);
     this.city = new SimpleStringProperty("какой-то город");
@@ -96,4 +96,6 @@ public void setFirstName(String firstName){
     public ObjectProperty<LocalDate> birthdayProperty() {
         return birthday;
     }
+
+
 }
