@@ -33,8 +33,19 @@ public class PersonOverviewController {
     }
     @FXML
     private void initialize(){
+        // Инициализация таблицы адресатов с двумя столбцами.
         firstNameColumn.setCellValueFactory(cellData -> cellData.getValue().firstNameProperty());
         lastNameColumn.setCellValueFactory(cellData -> cellData.getValue().lastNameProperty());
+
+        // Очистка дополнительной информации об адресате.
+        showPersonDetails(null);
+
+        // Слушаем изменения выбора, и при изменении отображаем
+        // дополнительную информацию об адресате.
+
+        personTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> showPersonDetails(newValue));
+
     }
 
     private void showPersonDetails(Person person) {
@@ -47,7 +58,7 @@ public class PersonOverviewController {
             cityLabel.setText(person.getCity());
 
             // TODO: Нам нужен способ для перевода дня рождения в тип String!
-            // birthdayLabel.setText(...);
+             birthdayLabel.setText(DateUtil.format(person.getBirthday()));
         }
         else {
             // Если Person = null, то убираем весь текст.
