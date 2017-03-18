@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+
 
 public class PersonOverviewController {
 
@@ -70,6 +73,22 @@ public class PersonOverviewController {
             birthdayLabel.setText("");
 
         }
+    }
+
+    /**
+     * Вызывается, когда пользователь кликает по кнопке удаления.
+     */
+    @FXML
+    private void handleDeletePerson(){
+        int selectIndex = personTable.getSelectionModel().getSelectedIndex();
+        if (selectIndex >=0) {
+            personTable.getItems().remove(selectIndex);
+        }
+        else {
+            // ничего не выбрано
+            Alert alert = new Alert(AlertType.WARNING);
+        }
+
     }
 
     public void setMainApp(Main mainApp) {
