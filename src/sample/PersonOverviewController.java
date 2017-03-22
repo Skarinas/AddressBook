@@ -87,6 +87,12 @@ public class PersonOverviewController {
         else {
             // ничего не выбрано
             Alert alert = new Alert(AlertType.WARNING);
+            alert.initOwner(mainApp.getPrimaryStage());
+            alert.setTitle("No selection");
+            alert.setHeaderText("No Person Selection");
+            alert.setContentText("Please select a person in the table");
+
+            alert.showAndWait();
         }
 
     }
