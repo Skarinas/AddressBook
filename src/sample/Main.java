@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.AnchorPane;
@@ -25,6 +26,7 @@ public class Main extends Application {
         this.primaryStage.setTitle("AddressApp");
         initRootLayout();
         showPersonOverview();
+        boolean f = showPersonEditDialog(new Person());
     }
 
     // Инициализируем корневой макет
@@ -78,7 +80,50 @@ public class Main extends Application {
         personData.add(new Person("Stefan", "Meier"));
         personData.add(new Person("Martin", "Mueller"));
     }
+
     public static void main(String[] args) {
         launch(args);
     }
+
+
+    /**
+     * Открывает диалоговое окно для изменения деталей указанного адресата.
+     * Если пользователь кликнул OK, то изменения сохраняются в предоставленном
+     * объекте адресата и возвращается значение true.
+     *
+     * @param person - объект адресата, который надо изменить
+     * @return true, если пользователь кликнул OK, в противном случае false.
+     */
+
+    public boolean showPersonEditDialog(Person person) {
+        try {
+            // Загружаем fxml-файл и создаём новую сцену
+            // для всплывающего диалогового окна.
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(Main.class.getResource("PersonEditDialog.fxml"));
+            AnchorPane page = (AnchorPane) loader.load();
+
+            // Создаём диалоговое окно Stage.
+            Stage dialogStage = new Stage();
+            dialogStage.setTitle("Edit Person");
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.initOwner(primaryStage);
+            Scene scene = new Scene(page);
+            dialogStage.setScene(scene);
+
+            // Передаём адресата в контроллер.
+            PersonEditDialogController controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setPerson(person);
+
+            // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
+            dialogStage.showAndWait();
+
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
